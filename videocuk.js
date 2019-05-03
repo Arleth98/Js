@@ -53,10 +53,7 @@ novicell.overlay = novicell.overlay || new function () {
                 var src = '';
                 isVideo = true;
 
-                if(options.type == 'vimeo') {
-                    src = 'https://player.vimeo.com/video/' + options.videoId;
-                }
-				else if(options.type == 'bloggerx') {
+				if(options.type == 'bloggerx') {
                     src = 'https://www.blogger.com/video.g?token=' + options.videoId;
                 }
                 else if(options.type == 'youtube') {
