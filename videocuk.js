@@ -56,11 +56,11 @@ novicell.overlay = novicell.overlay || new function () {
                 if(options.type == 'vimeo') {
                     src = 'https://player.vimeo.com/video/' + options.videoId;
                 }
+				else if(options.type == 'bloggerx') {
+                    src = 'https://www.blogger.com/video.g?token=' + options.videoId;
+                }
                 else if(options.type == 'youtube') {
                     src = 'https://www.youtube.com/embed/' + options.videoId +'?ecver=2';
-                }
-                else if(options.type == 'bloggerx') {
-                    src = 'https://www.blogger.com/video.g?token=' + options.videoId;
                 }
                 else {
                     return;
@@ -167,11 +167,76 @@ novicell.overlay = novicell.overlay || new function () {
         backdrop.appendChild(overlayElem);
     };
 
-    function setupOverlayContainer(){overlayContainer=document.createElement("div");overlayContainer.classList.add("novi-overlay__container");overlayContent=document.createElement("div");overlayContent.classList.add("novi-overlay__content");if(isVideo){overlayContent.classList.add("novi-overlay__content--video")}overlayContent.innerHTML=content;overlayContainer.appendChild(overlayContent);overlayElem.appendChild(overlayContainer)};
-    function setupCloseButton(){var a=document.createElement("button");a.classList.add("novi-overlay-close","button--close");a.type="button";a.id="js-novi-overlay-close";a.addEventListener("click",self.destroy);document.addEventListener("keydown",function(b){if(b.keyCode===27){self.destroy()}});overlayContent.appendChild(a)};
+    function setupOverlayContainer() {
+        // Create content for overlay
+        overlayContainer = document.createElement('div');
+        overlayContainer.classList.add('novi-overlay__container');
+
+        // Create scroll element
+        overlayContent = document.createElement('div');
+        overlayContent.classList.add('novi-overlay__content');
+
+        if(isVideo) {
+            overlayContent.classList.add('novi-overlay__content--video')
+        }
+
+        // Set content
+        overlayContent.innerHTML = content;
+        overlayContainer.appendChild(overlayContent);
+
+        // Add overlayContainer to overlay element
+        overlayElem.appendChild(overlayContainer);
+    };
+
+    function setupCloseButton() {
+        // Create the button
+        var btnClose = document.createElement('button');
+        btnClose.classList.add('novi-overlay-close', 'button--close');
+        btnClose.type = 'button';
+        btnClose.id = 'js-novi-overlay-close';
+
+        // Add eventlistener for button click
+        btnClose.addEventListener('click', self.destroy);
+
+        // Add eventlistener for esc key
+        document.addEventListener('keydown', function (e) {
+            if (e.keyCode === 27) {
+                self.destroy();
+            }
+        });
+
+        // Add close button to overlay element
+        overlayContent.appendChild(btnClose);
+    };
+
     /*
      * Helper functions for getting content
      */
-	function get(a){return new Promise(function(d,c){var b=new XMLHttpRequest();b.open("GET",a);b.onload=function(){if(b.status>=200&&b.status<400){d(b.response)}else{c(Error(b.statusText))}};b.onerror=function(){c(Error("Network Error"))};b.send()})};
+    function get(url) {
+        // Return a new promise.
+        return new Promise(function (resolve, reject) {
+            // Do the usual XHR stuff
+            var req = new XMLHttpRequest();
+            req.open('GET', url);
+
+            req.onload = function () {
+                if (req.status >= 200 && req.status < 400) {
+                    // Success!!
+                    resolve(req.response);
+                } else {
+                    // Error!!
+                    reject(Error(req.statusText));
+                }
+            };
+
+            // Handle network errors
+            req.onerror = function () {
+                reject(Error("Network Error"));
+            };
+
+            // Make the request
+            req.send();
+        });
+    };
 
 }();
