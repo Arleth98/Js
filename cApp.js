@@ -107,6 +107,13 @@
                 link.target = "_blank";
                 const image = document.createElement("img");
                 image.src = imageUrl;
+                let named = imageUrl
+                    .split("/")
+                    .pop()
+                    .split("?")[0];
+                named = named.split("%2F").join("-");
+                named = named.split("%20").join("-");
+                image.alt = named;
                 link.appendChild(image);
                 div.appendChild(link);
                 div.classList.add("separator");
