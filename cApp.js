@@ -1,4 +1,4 @@
-import { ref, push, onChildAdded, getDatabase } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+    import { ref, push, onChildAdded, getDatabase } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-storage.js";
 
@@ -112,7 +112,7 @@ import { ref, push, onChildAdded, getDatabase } from "https://www.gstatic.com/fi
             messageContainer.addEventListener("scroll", () => {
                 if (messageContainer.scrollTop === 0 && messageDiv == messageContainer.lastElementChild) {
                      const btn = document.createElement("button");
-                     btn.innerHTML = "<i class='fa fa-arrow-down'></i>";
+                     btn.innerHTML = "<i class='fa fa-caret-down'></i>";
                      btn.addEventListener("click", () => {
                         messageContainer.scrollTop = messageContainer.scrollHeight;
                         btn.remove();
