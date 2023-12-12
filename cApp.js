@@ -88,9 +88,18 @@
 
         sendButton.addEventListener("click", sendMessage);
 
-        const addMessage = (name, message, imageUrl) => {
+        const addMessage = (name, message, imageUrl, timestamp) => {
             const messageDiv = document.createElement("div");
-            messageDiv.innerHTML = `<b>${name}:</b> ${message}`;
+            const getTimestamp = new Date(timestamp).toLocaleString("id", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: false,
+                timeZone: "Asia/Jakarta",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            });
+            messageDiv.innerHTML = `<b>${name}:</b> ${message} <small class="timestamp">${getTimestamp}</small>`;
             if (imageUrl) {
                 const div = document.createElement("div");
                 const link = document.createElement("a");
@@ -133,7 +142,7 @@
 
         onChildAdded(messagesRef, (snapshot) => {
             const messageData = snapshot.val();
-            addMessage(messageData.name, messageData.message, messageData.imageUrl);
+            addMessage(messageData.name, messageData.message, messageData.imageUrl, messageData.timestamp);
         });
     });
 
